@@ -1,7 +1,13 @@
 import 'package:advanced_bloc_demo/dashboard/dashboard_screen.dart';
+import 'package:advanced_bloc_demo/globalfiles/globalBlocObserver.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  /*
+  * bind global bloc event for see which state is emitted or event is emitted
+  * */
+  Bloc.observer=GlobalBlocObserver();
   runApp(const MyApp());
 }
 

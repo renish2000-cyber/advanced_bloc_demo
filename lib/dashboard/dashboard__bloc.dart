@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:advanced_bloc_demo/cart/cart_screen_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -34,21 +35,26 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   FutureOr<void> dashboardInitial(DashboardInitialEvent event, Emitter<DashboardState> emit) async {
     emit(DashboardLoadingState());
     await Future.delayed(const Duration(seconds: 2));
-    List<ProductListData> prodData=Products.productList.map((e) => ProductListData(e["productId"], e["productName"], e["category"], e["price"], e["unit"], e["image"])).toList();
-    emit(DashboardSuccessState(prodData));
+    emit(DashboardSuccessState(Products.prodData));
   }
   /*
   * When user click on specific card cart button then this method called
   * */
   FutureOr<void> addProductToCart(cardAddToCartButtonClick event, Emitter<DashboardState> emit) {
-    Products.cartList.add(event.cartPrdData);
+    if(!Products.cartList.contains(event.cartPrdData)){
+      Products.cartList.add(event.cartPrdData);
+    }else{
+      Products.cartList.remove(event.cartPrdData);
+    }
     emit(AddProductToCart());
+   emit(DashboardSuccessState(Products.prodData));
   }
   /*
   *  When user click on specific card like button then this method called
   * */
   FutureOr<void> addProductToWishList(cardWishlistButtonClick event, Emitter<DashboardState> emit) {
-
+    Products.wishList.add(event.wishPrdData);
+    emit(AddProductToWishList());
   }
 
   /*

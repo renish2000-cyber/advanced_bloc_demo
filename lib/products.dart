@@ -39,6 +39,9 @@ class Products {
           "https://images.unsplash.com/photo-1610397962076-02407a169a5b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D"
     },
   ];
+
+  static List<ProductListData> prodData=productList.map((e) => ProductListData(e["productId"], e["productName"], e["category"], e["price"], e["unit"], e["image"])).toList();
+
   static List<ProductListData> cartList = [];
   static List<ProductListData> wishList = [];
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../products.dart';
 import 'dashboard_data_model.dart';
 
 class Dashboard extends StatefulWidget {
@@ -54,7 +55,7 @@ class _DashboardState extends State<Dashboard> {
           if (state  is AddProductToCart) {
             Fluttertoast.showToast(msg: "Product Added to Cart Successfully");
           } else if (state is AddProductToWishList) {
-            Fluttertoast.showToast(msg: "Product");
+            Fluttertoast.showToast(msg: "Product Added to WishList");
           }
           else if(state is appbarCartButtonClickS){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => CartListScreen(),));
@@ -97,9 +98,22 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget productList(List<ProductListData> prdData) {
+    bool isWishListPrd=false;
+    bool isCartListPrd=false;
+
     return ListView.builder(
       itemCount: prdData.length,
       itemBuilder: (context, index) {
+        if(Products.cartList.isNotEmpty){
+          Products.cartList.forEach((element) {
+            if(element.productId == prdData[index].productId){
+              isCartListPrd =true;
+            }else{
+              isCartListPrd =false;
+            }
+          });
+        }
+
         return Card(
           shape: RoundedRectangleBorder(
               side: BorderSide(color: Colors.grey),
@@ -140,15 +154,14 @@ class _DashboardState extends State<Dashboard> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          dashboardBloc.add(cardWishlistButtonClick());
+                          dashboardBloc.add(cardWishlistButtonClick(prdData[index]));
                         },
                         icon: Icon(Icons.favorite_border_outlined)),
                     IconButton(
                         onPressed: () {
-                          dashboardBloc
-                              .add(cardAddToCartButtonClick(prdData[index]));
+                          dashboardBloc.add(cardAddToCartButtonClick(prdData[index]));
                         },
-                        icon: Icon(Icons.shopping_cart_outlined)),
+                        icon: Icon((isCartListPrd) ? Icons.shopping_cart : Icons.shopping_cart_outlined)),
                   ],
                 )
               ],

@@ -17,7 +17,10 @@ class appbarWishListButtonClickE extends DashboardEvent {}
 * Card Buttons Events
 * */
 
-class cardWishlistButtonClick extends DashboardEvent {}
+class cardWishlistButtonClick extends DashboardEvent {
+  ProductListData wishPrdData;
+  cardWishlistButtonClick(this.wishPrdData);
+}
 
 class cardAddToCartButtonClick extends DashboardEvent {
   ProductListData cartPrdData;
